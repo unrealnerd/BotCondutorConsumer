@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using iconic.web.Models;
+using iconic.web.Services.BotConductor;
 using Microsoft.AspNetCore.Mvc;
 
 namespace iconic.web.Controllers
@@ -7,10 +8,12 @@ namespace iconic.web.Controllers
     public class HomeController : Controller
     {
         private readonly ConversationContext _conversationContext;
+        private readonly BotConductorService _service;
 
-        public HomeController(ConversationContext conversationContext)
+        public HomeController(ConversationContext conversationContext, BotConductorService service)
         {
             _conversationContext = conversationContext;
+            _service = service;
         }
 
         public IActionResult Index()
@@ -19,16 +22,14 @@ namespace iconic.web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Search(string message)
+        public async Task<IActionResult> SendMessage(string message)
         {
             
-            
+            var reply = await _service.SendMessage(message);
             //save the conversation to db
-            _conversationContext.Conversations.Add(new Conversation{ Message = message, Reply = "Some Reply" });
+            _conversationContext.Conversations.Add(new Conversation{ Message = message, Reply = reply });
             await _conversationContext.SaveChangesAsync();
-
-
-
+            
             return RedirectToAction(nameof(Index));
         }
     }

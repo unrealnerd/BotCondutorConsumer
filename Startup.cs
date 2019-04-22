@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using iconic.web.Models;
+﻿using iconic.web.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
-using iconic.web.services;
+using iconic.web.Services.BotConductor;
 
 namespace iconic.web
 {
@@ -26,7 +21,8 @@ namespace iconic.web
         {
             services.AddDbContext<ConversationContext>(options => options.UseSqlite(Configuration.GetConnectionString("ConversationDb")) );
             services.AddMvc();
-            services.AddHttpClient<IconicService>();
+            services.AddHttpClient<BotConductorService>();
+            services.AddScoped<BotConductorService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
