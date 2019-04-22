@@ -8,17 +8,17 @@ namespace iconic.web.Services.BotConductor
     public class BotConductorService
     {
         private HttpClient _client { get; set; }
-        private IOptions<Options> _options;
-        public BotConductorService(HttpClient httpClient, IOptions<Options> options)
+        private readonly IOptions<BotConductorOptions> _options;
+        public BotConductorService(HttpClient httpClient, IOptions<BotConductorOptions> options)
         {
             _options = options;
-            _client.BaseAddress = new Uri(options.Value.BaseAddress);
             _client = httpClient;
+            _client.BaseAddress = new Uri(options.Value.BaseAddress);
         }
 
-        public async Task<string> SendMessage(string message)
+        public async Task<HttpResponseMessage> SendMessage(string message)
         {
-            return await _client.GetStringAsync($"{_client.BaseAddress}/{_options.Value.EndPointSendMessage}");
+            return await _client.PostAsJsonAsync($"{_client.BaseAddress}{_options.Value.EndPointSendMessage}", message);
 
         }
     }

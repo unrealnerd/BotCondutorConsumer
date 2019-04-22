@@ -27,7 +27,7 @@ namespace iconic.web.Controllers
             
             var reply = await _service.SendMessage(message);
             //save the conversation to db
-            _conversationContext.Conversations.Add(new Conversation{ Message = message, Reply = reply });
+            _conversationContext.Conversations.Add(new Conversation{ Message = message, Reply = await reply.Content.ReadAsStringAsync() });
             await _conversationContext.SaveChangesAsync();
             
             return RedirectToAction(nameof(Index));

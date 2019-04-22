@@ -19,10 +19,11 @@ namespace iconic.web
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ConversationContext>(options => options.UseSqlite(Configuration.GetConnectionString("ConversationDb")) );
+            services.Configure<BotConductorOptions>(Configuration.GetSection("BotConductor"));
+            
+            services.AddDbContext<ConversationContext>(options => options.UseSqlite(Configuration.GetConnectionString("ConversationDb")) );            
             services.AddMvc();
-            services.AddHttpClient<BotConductorService>();
-            services.AddScoped<BotConductorService>();
+            services.AddHttpClient<BotConductorService>();            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

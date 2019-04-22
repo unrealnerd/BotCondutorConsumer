@@ -1,6 +1,6 @@
 namespace iconic.web.Services.BotConductor
 {
-    public class Options
+    public class BotConductorOptions
     {
         public string BaseAddress { get; set; }
         public string EndPointSendMessage { get; set; }
