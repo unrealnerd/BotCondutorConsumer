@@ -1,0 +1,14 @@
+@model IEnumerable<iconic.web.Models.Conversation>
+
+    <h5>Recent</h3>
+    @foreach (var c in Model)
+    {
+        <div class="row">
+            <div class="col-md-3">
+                @c.Message
+            </div>
+            <div class="col-md-9">
+                @c.Reply
+            </div>
+        </div>
+    }
